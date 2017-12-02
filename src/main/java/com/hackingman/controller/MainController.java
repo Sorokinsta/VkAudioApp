@@ -2,6 +2,7 @@ package com.hackingman.controller;
 
 
 import com.hackingman.service.AudioService;
+import com.hackingman.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ public class MainController {
 
     @Autowired
     private AudioService audioService;
+    @Autowired
+    private MessageService messageService;
 
     @GetMapping("/{vkId}")
     public ResponseEntity<String[]> getAudios(@PathVariable("vkId") String vkId) throws InterruptedException {
@@ -30,6 +33,12 @@ public class MainController {
     @GetMapping("/stop")
     public ResponseEntity stopAudio() throws InterruptedException {
         audioService.stopMusic();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{vkId}/message")
+    public ResponseEntity sendMessage(@PathVariable("vkId") String vkId) throws InterruptedException {
+        messageService.sendMessage(vkId);
         return ResponseEntity.ok().build();
     }
 }
